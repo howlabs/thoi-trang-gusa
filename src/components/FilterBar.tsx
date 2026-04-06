@@ -45,7 +45,7 @@ export function FilterBar({
         onChange={(e) => onSearchChange(e.target.value)}
         className="sm:max-w-sm"
       />
-      <Select value={groupFilter} onValueChange={onGroupChange}>
+      <Select value={groupFilter} onValueChange={(v) => { if (v != null) onGroupChange(v) }}>
         <SelectTrigger className="w-full sm:w-[200px]">
           <span className="text-muted-foreground">SP:</span> <SelectValue />
         </SelectTrigger>
@@ -56,7 +56,7 @@ export function FilterBar({
           ))}
         </SelectContent>
       </Select>
-      <Select value={categoryFilter} onValueChange={onCategoryChange}>
+      <Select value={categoryFilter} onValueChange={(v) => { if (v != null) onCategoryChange(v) }}>
         <SelectTrigger className="w-full sm:w-[180px]">
           <span className="text-muted-foreground">SKU:</span> <SelectValue />
         </SelectTrigger>
@@ -66,7 +66,7 @@ export function FilterBar({
           <SelectItem value={CATEGORY_STOCK}>Stock (S)</SelectItem>
         </SelectContent>
       </Select>
-      <Select value={sortOrder} onValueChange={(v) => onSortChange(v as SortOrder)}>
+      <Select value={sortOrder} onValueChange={(v) => { if (v != null) onSortChange(v as SortOrder) }}>
         <SelectTrigger className="w-full sm:w-[160px]">
           <span className="text-muted-foreground">Sắp xếp:</span> <SelectValue />
         </SelectTrigger>
@@ -76,7 +76,7 @@ export function FilterBar({
           <SelectItem value="za">Tên Z → A</SelectItem>
         </SelectContent>
       </Select>
-      <Select value={String(pageSize)} onValueChange={(v) => onPageSizeChange(Number(v))}>
+      <Select value={String(pageSize)} onValueChange={(v) => { if (v != null) onPageSizeChange(Number(v)) }}>
         <SelectTrigger className="w-full sm:w-[120px]">
           <SelectValue />
         </SelectTrigger>
