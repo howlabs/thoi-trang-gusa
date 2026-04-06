@@ -118,6 +118,124 @@
     --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/* === Screen Cat === */
+.screen-cat-container {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Running legs */
+.is-running .scat-leg-fl { transform-origin: 65px 64px; animation: scatLegF 0.28s ease-in-out infinite; }
+.is-running .scat-leg-fr { transform-origin: 73px 64px; animation: scatLegF 0.28s ease-in-out infinite 0.14s; }
+.is-running .scat-leg-bl { transform-origin: 31px 64px; animation: scatLegB 0.28s ease-in-out infinite 0.14s; }
+.is-running .scat-leg-br { transform-origin: 39px 64px; animation: scatLegB 0.28s ease-in-out infinite; }
+.is-running .scat-tail   { transform-origin: 12px 58px; animation: scatTailRun 0.4s ease-in-out infinite; }
+.is-running { animation: scatBounce 0.28s ease-in-out infinite; }
+
+@keyframes scatLegF {
+  0%, 100% { transform: rotate(-30deg); }
+  50% { transform: rotate(30deg); }
+}
+@keyframes scatLegB {
+  0%, 100% { transform: rotate(30deg); }
+  50% { transform: rotate(-30deg); }
+}
+@keyframes scatTailRun {
+  0%, 100% { transform: rotate(-10deg); }
+  50% { transform: rotate(15deg); }
+}
+@keyframes scatBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* Running eyes (focused) */
+.is-running .scat-eyes { transform-origin: 83px 34px; }
+
+/* Idle animations */
+.is-idle .scat-tail-idle { transform-origin: 10px 72px; animation: scatTailIdle 3s ease-in-out infinite; }
+.is-idle .scat-eyes-idle { transform-origin: 46px 22px; animation: scatBlink 5s ease-in-out infinite; }
+.is-idle .scat-whiskers-idle { transform-origin: 46px 31px; animation: scatWhisker 6s ease-in-out infinite; }
+.is-idle { animation: scatBreathe 3.5s ease-in-out infinite; }
+
+@keyframes scatTailIdle {
+  0%, 100% { transform: rotate(0deg); }
+  30% { transform: rotate(10deg); }
+  70% { transform: rotate(-6deg); }
+}
+@keyframes scatBlink {
+  0%, 86%, 100% { transform: scaleY(1); }
+  90% { transform: scaleY(0.05); }
+  94% { transform: scaleY(1); }
+  97% { transform: scaleY(0.05); }
+}
+@keyframes scatWhisker {
+  0%, 85%, 100% { transform: scaleX(1); }
+  90% { transform: scaleX(1.08); }
+  95% { transform: scaleX(0.96); }
+}
+@keyframes scatBreathe {
+  0%, 100% { transform: scaleY(1); transform-origin: center bottom; }
+  50% { transform: scaleY(1.02) translateY(-1px); transform-origin: center bottom; }
+}
+
+/* Sleeping animations */
+.is-sleeping { animation: scatSleepBreathe 3s ease-in-out infinite; }
+.is-sleeping .scat-tail-sleep {
+  transform-origin: 95px 52px;
+  animation: scatTailSleep 4s ease-in-out infinite;
+}
+.scat-zzz { animation: scatZzz 2.5s ease-in-out infinite; }
+
+@keyframes scatSleepBreathe {
+  0%, 100% { transform: scaleY(1); transform-origin: center bottom; }
+  50% { transform: scaleY(1.03) translateY(-1px); transform-origin: center bottom; }
+}
+@keyframes scatTailSleep {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(5deg); }
+}
+@keyframes scatZzz {
+  0% { opacity: 0.3; transform: translateY(0); }
+  50% { opacity: 1; transform: translateY(-6px); }
+  100% { opacity: 0.3; transform: translateY(0); }
+}
+
+/* Chat bubble */
+.screen-cat-bubble {
+  white-space: nowrap;
+  background: #1a1a2e;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 14px;
+  box-shadow: 0 4px 16px oklch(0 0 0 / 0.25);
+  animation: scatBubble 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  margin-bottom: 6px;
+  position: relative;
+  pointer-events: auto;
+  cursor: default;
+}
+.screen-cat-bubble::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  margin-left: -5px;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 7px solid #1a1a2e;
+}
+@keyframes scatBubble {
+  0% { opacity: 0; transform: scale(0.4) translateY(8px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
