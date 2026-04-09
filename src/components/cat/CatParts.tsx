@@ -89,6 +89,112 @@ export const CatOutfitLayer = ({ outfit }: { outfit: Outfit }) => {
       </g>
     )
   }
+  // ── One Piece: Luffy - áo vest đỏ mở ngực + quần xanh + sẹo X ──
+  if (outfit === "onepiece") {
+    return (
+      <g className="ceo-onepiece">
+        {/* Quần short xanh đậm (phần dưới) */}
+        <path d="M 38 95 C 33 110, 38 118, 64 118 C 90 118, 95 110, 90 95 Z" fill="#1A3A6B" />
+        {/* Bên trong quần */}
+        <path d="M 42 98 C 40 110, 48 118, 64 118 C 80 118, 88 110, 86 98 Z" fill="#15305A" />
+
+        {/* Áo vest đỏ mở ngực (phần trên) */}
+        <path d="M 38 55 C 30 75, 34 95, 38 100 L 90 100 C 94 95, 98 75, 90 55 Z" fill="#CC1A1A" />
+        {/* Cấu trúc vest mở - mép vest trái */}
+        <path d="M 46 55 C 42 75, 44 90, 46 100 L 58 100 L 58 60 C 58 57, 52 56, 46 55 Z" fill="#E02020" />
+        {/* Mép vest phải */}
+        <path d="M 82 55 C 86 75, 84 90, 82 100 L 70 100 L 70 60 C 70 57, 76 56, 82 55 Z" fill="#E02020" />
+        {/* Phần ngực trống giữa */}
+        <path d="M 58 60 L 58 100 L 70 100 L 70 60 C 70 58, 64 56, 58 60 Z" fill="#1A1A1A" opacity="0.15" />
+        {/* Viền vest kim loại */}
+        <path d="M 46 55 C 42 75, 44 95, 46 100" stroke="#FFD700" strokeWidth="1.5" fill="none" />
+        <path d="M 82 55 C 86 75, 84 95, 82 100" stroke="#FFD700" strokeWidth="1.5" fill="none" />
+        {/* Nút vest */}
+        <circle cx="52" cy="72" r="2" fill="#FFD700" />
+        <circle cx="52" cy="85" r="2" fill="#FFD700" />
+        {/* Sẹo X dưới ngực */}
+        <line x1="61" y1="72" x2="67" y2="80" stroke="#CC4444" strokeWidth="2.5" strokeLinecap="round" />
+        <line x1="67" y1="72" x2="61" y2="80" stroke="#CC4444" strokeWidth="2.5" strokeLinecap="round" />
+        {/* Đường sọc cách điệu ở eo */}
+        <path d="M 42 95 L 86 95" stroke="#FFD700" strokeWidth="1" strokeDasharray="3 2" />
+        {/* Dép sandals */}
+        <ellipse cx="44" cy="118" rx="10" ry="3" fill="#8B4513" />
+        <ellipse cx="84" cy="118" rx="10" ry="3" fill="#8B4513" />
+        <path d="M 38 115 L 44 110 L 50 115" stroke="#8B4513" strokeWidth="2" fill="none" />
+        <path d="M 78 115 L 84 110 L 90 115" stroke="#8B4513" strokeWidth="2" fill="none" />
+      </g>
+    )
+  }
+  // ── Naruto: áo jumpsuit cam + đen cổ cao + whirlpool + ninja pouch ──
+  if (outfit === "naruto") {
+    return (
+      <g className="ceo-naruto">
+        {/* Áo jumpsuit cam */}
+        <path d="M 38 55 C 28 90, 35 115, 64 115 C 93 115, 100 90, 90 55 Z" fill="#FF8C00" />
+        {/* Phần đen ở vai + ngực trên */}
+        <path d="M 38 55 L 46 55 L 56 62 L 64 57 L 72 62 L 82 55 L 90 55 L 86 72 L 64 78 L 42 72 Z" fill="#1A1A1A" />
+        {/* Zipper dọc giữa */}
+        <line x1="64" y1="78" x2="64" y2="115" stroke="#555" strokeWidth="1.5" />
+        {/* Đường zipper răng kéo */}
+        <g stroke="#666" strokeWidth="0.5">
+          <line x1="63" y1="80" x2="65" y2="80" />
+          <line x1="63" y1="84" x2="65" y2="84" />
+          <line x1="63" y1="88" x2="65" y2="88" />
+          <line x1="63" y1="92" x2="65" y2="92" />
+          <line x1="63" y1="96" x2="65" y2="96" />
+          <line x1="63" y1="100" x2="65" y2="100" />
+          <line x1="63" y1="104" x2="65" y2="104" />
+        </g>
+        {/* Biểu tượng Uzumaki xoắn (con zun) trên lưng */}
+        <g transform="translate(64, 88)">
+          <circle r="10" fill="none" stroke="#E04000" strokeWidth="1.5" />
+          <circle r="7" fill="none" stroke="#E04000" strokeWidth="1" />
+          <path d="M 0 -10 C 5 -5, 5 5, 0 10 C -5 5, -5 -5, 0 -10" fill="#E04000" opacity="0.5" />
+          <circle r="3" fill="#E04000" opacity="0.4" />
+        </g>
+        {/* Ninja pouch đeo sau hông phải */}
+        <rect x="82" y="78" width="10" height="14" rx="2" fill="#5C4033" stroke="#3E2723" strokeWidth="0.8" />
+        <line x1="84" y1="83" x2="90" y2="83" stroke="#3E2723" strokeWidth="0.5" />
+        <line x1="84" y1="87" x2="90" y2="87" stroke="#3E2723" strokeWidth="0.5" />
+        {/* Băng quấn chân */}
+        <rect x="32" y="100" width="14" height="5" rx="1" fill="#F5F5DC" opacity="0.8" />
+        <rect x="82" y="100" width="14" height="5" rx="1" fill="#F5F5DC" opacity="0.8" />
+        {/* Giày ninja đen */}
+        <path d="M 32 105 L 32 115 C 32 118, 46 118, 46 115 L 46 105 Z" fill="#1A1A1A" />
+        <path d="M 82 105 L 82 115 C 82 118, 96 118, 96 115 L 96 105 Z" fill="#1A1A1A" />
+      </g>
+    )
+  }
+  // ── Super Saiyan Goku: gi cam + áo lót xanh + đai lưng + wristband + kanji ──
+  if (outfit === "saiyan") {
+    return (
+      <g className="ceo-saiyan">
+        {/* Áo gi cam (tất cả) */}
+        <path d="M 38 55 C 28 90, 35 115, 64 115 C 93 115, 100 90, 90 55 Z" fill="#FF6B00" />
+        {/* Áo lót xanh dương bên trong, lộ ở cổ */}
+        <path d="M 50 55 L 58 62 L 64 58 L 70 62 L 78 55 L 76 60 L 64 68 L 52 60 Z" fill="#1E3A6B" />
+        {/* Cổ áo lót xanh cao */}
+        <path d="M 50 54 L 56 52 L 64 54 L 72 52 L 78 54 L 76 58 L 64 56 L 52 58 Z" fill="#234E80" />
+        {/* Đai lưng (obi) xanh dương */}
+        <rect x="38" y="86" width="52" height="8" rx="2" fill="#1E3A6B" />
+        {/* Nút thắt đai */}
+        <circle cx="64" cy="90" r="5" fill="#2B5090" stroke="#1E3A6B" strokeWidth="1.5" />
+        <line x1="62" y1="88" x2="66" y2="92" stroke="#FFD700" strokeWidth="1" />
+        {/* Wristbands xanh */}
+        <rect x="34" y="82" width="8" height="6" rx="2" fill="#1E3A6B" />
+        <rect x="86" y="82" width="8" height="6" rx="2" fill="#1E3A6B" />
+        {/* Chữ kanji "悟" (Go) của Goku trên ngực */}
+        <text x="64" y="78" textAnchor="middle" fontSize="12" fill="#333" fontWeight="bold" fontFamily="serif">悟</text>
+        {/* Nếp gấp gi dưới đai */}
+        <path d="M 42 96 Q 52 94, 64 96 Q 76 98, 86 96" fill="none" stroke="#CC5500" strokeWidth="0.8" />
+        {/* Giày chiến đấu */}
+        <path d="M 32 108 L 32 118 C 32 120, 46 120, 46 118 L 46 108 Z" fill="#1E3A6B" />
+        <path d="M 32 108 L 39 108 L 46 108" stroke="#234E80" strokeWidth="1.5" />
+        <path d="M 82 108 L 82 118 C 82 120, 96 120, 96 118 L 96 108 Z" fill="#1E3A6B" />
+        <path d="M 82 108 L 89 108 L 96 108" stroke="#234E80" strokeWidth="1.5" />
+      </g>
+    )
+  }
   return (
     <>
       <path className="ceo-cape" d="M 40 60 C 15 90, 20 115, 35 115 C 50 115, 85 115, 95 115 C 110 115, 105 80, 80 60 Z" fill="#8B0000" opacity="0.95"/>
@@ -101,10 +207,10 @@ export const CatBody = ({ outfit }: { outfit: Outfit }) => (
   <>
     {/* Base body */}
     <path className="ceo-body" d="M 46 55 C 36 90, 42 120, 64 120 C 86 120, 92 90, 82 55 Z" fill="#171821" />
-    
+
     {/* Soft inner belly */}
     <path className="ceo-belly" d="M 52 65 C 46 95, 52 114, 64 114 C 76 114, 82 95, 76 65" fill="#222533" />
-    
+
     {/* White fluffy chest/neck tuft */}
     <path className="ceo-fluff" d="M 48 55 Q 64 78, 80 55 Q 64 65, 48 55" fill="#E8EBED" />
     <path className="ceo-fluff-inner" d="M 54 58 Q 64 74, 74 58 Q 64 62, 54 58" fill="#FFFFFF" />
@@ -118,10 +224,20 @@ export const CatBody = ({ outfit }: { outfit: Outfit }) => (
         </g>
       </>
     )}
+
+    {/* Super Saiyan aura phát sáng */}
+    {outfit === "saiyan" && (
+      <g className="ceo-saiyan-aura">
+        <ellipse cx="64" cy="80" rx="40" ry="50" fill="#FFD700" opacity="0.08">
+          <animate attributeName="rx" values="38;44;38" dur="0.8s" repeatCount="indefinite" />
+          <animate attributeName="opacity" values="0.05;0.15;0.05" dur="0.8s" repeatCount="indefinite" />
+        </ellipse>
+      </g>
+    )}
   </>
 )
 
-export const CatHead = ({ emotion, hat }: { emotion: Emotion, hat: Hat }) => (
+export const CatHead = ({ emotion, hat, outfit }: { emotion: Emotion, hat: Hat, outfit: Outfit }) => (
   <g className="ceo-head-group">
     {/* Cheek fluffs */}
     <path d="M 36 40 L 26 43 L 34 48 L 24 53 L 36 55 Z" fill="#171821" />
@@ -188,6 +304,97 @@ export const CatHead = ({ emotion, hat }: { emotion: Emotion, hat: Hat }) => (
         <path d="M -5 5 L 5 2 L 20 5 L 35 2 L 45 5 L 45 8 C 40 15 30 15 25 8 L 15 8 C 10 15 0 15 -5 8 Z" fill="#111" />
         <path d="M -2 5 C 5 10 12 10 18 5 Z" fill="#333" opacity="0.5" />
         <path d="M 22 5 C 29 10 36 10 42 5 Z" fill="#333" opacity="0.5" />
+      </g>
+    )}
+
+    {/* ── One Piece: Nón rơm Luffy - andnh rộng, thân tròn, dây đỏ ── */}
+    {hat === "strawhat" && (
+      <g className="ceo-strawhat" transform="translate(38, 8)">
+        {/* Andnh nón rộng đặc trưng */}
+        <ellipse cx="26" cy="22" rx="32" ry="7" fill="#DEB887" stroke="#B8860B" strokeWidth="1.2" />
+        {/* Đường rơm đan trên andnh */}
+        <ellipse cx="26" cy="22" rx="32" ry="7" fill="none" stroke="#C4A46C" strokeWidth="0.5" strokeDasharray="4 3" />
+        {/* Thân nón chóp tròn */}
+        <path d="M 2 22 C 0 8, 52 8, 50 22 Z" fill="#F5DEB3" stroke="#B8860B" strokeWidth="1" />
+        {/* Đường rơm đan thân nón */}
+        <path d="M 6 18 C 8 14, 44 14, 46 18" fill="none" stroke="#D4A860" strokeWidth="0.5" strokeDasharray="3 3" />
+        <path d="M 8 14 C 10 10, 42 10, 44 14" fill="none" stroke="#D4A860" strokeWidth="0.5" strokeDasharray="3 3" />
+        {/* Dây buộc đỏ quanh nón */}
+        <path d="M 4 18 C 6 15, 46 15, 48 18 L 48 22 C 46 19, 6 19, 4 22 Z" fill="#CC1A1A" />
+        {/* Dấu X trắng trên andnh */}
+        <line x1="22" y1="10" x2="30" y2="18" stroke="#B8860B" strokeWidth="2" strokeLinecap="round" />
+        <line x1="30" y1="10" x2="22" y2="18" stroke="#B8860B" strokeWidth="2" strokeLinecap="round" />
+        {/* Dây mây mảnh buộc sau gáy */}
+        <path d="M -4 24 C -12 28, -14 38, -8 44" stroke="#CC1A1A" strokeWidth="2" fill="none" strokeLinecap="round" />
+        <path d="M 56 24 C 64 28, 66 38, 60 44" stroke="#CC1A1A" strokeWidth="2" fill="none" strokeLinecap="round" />
+      </g>
+    )}
+
+    {/* ── Naruto: Băng đô làng Lá với spiral icon chính xác ── */}
+    {hat === "leafband" && (
+      <g className="ceo-leafband" transform="translate(36, 22)">
+        {/* Băng đô vải */}
+        <path d="M -2 6 C 20 -3, 40 -3, 62 6 L 60 14 C 40 5, 20 5, 0 14 Z" fill="#3355AA" />
+        {/* Tấm kim loại bảo vệ */}
+        <rect x="16" y="0" width="26" height="16" rx="2" fill="#C8C8C8" stroke="#999" strokeWidth="1" />
+        {/* Hiệu ứng kim loại phản quang */}
+        <rect x="17" y="1" width="24" height="5" rx="1" fill="#E0E0E0" opacity="0.6" />
+        {/* Biểu tượng làng Lá - spiral/vòng xoắn lá */}
+        <g transform="translate(29, 8)">
+          {/* Vòng ngoài spiral */}
+          <path d="M 0 -5 C 6 -5, 7 0, 5 3 C 3 6, -2 6, -4 3 C -6 0, -4 -3, 0 -3 C 3 -3, 4 0, 2 2 C 0 4, -1 3, 0 2" fill="none" stroke="#333" strokeWidth="1.2" strokeLinecap="round" />
+          {/* Điểm tâm */}
+          <circle r="0.8" fill="#333" />
+        </g>
+        {/* Đinh tán kim loại */}
+        <circle cx="18" cy="2" r="1" fill="#AAA" />
+        <circle cx="40" cy="2" r="1" fill="#AAA" />
+        <circle cx="18" cy="14" r="1" fill="#AAA" />
+        <circle cx="40" cy="14" r="1" fill="#AAA" />
+        {/* Dây buộc bay sau gáy */}
+        <path d="M -2 12 C -10 16, -14 26, -10 34 C -8 30, -12 22, -4 16" stroke="#3355AA" strokeWidth="3" fill="none" strokeLinecap="round" />
+        <path d="M 62 12 C 70 16, 74 26, 70 34 C 68 30, 72 22, 64 16" stroke="#3355AA" strokeWidth="3" fill="none" strokeLinecap="round" />
+      </g>
+    )}
+
+    {/* ── Super Saiyan Goku: Tóc vàng xù vươn lên + aura chớp ── */}
+    {hat === "saiyanhair" && (
+      <g className="ceo-saiyanhair" transform="translate(64, 22)">
+        {/* Aura tia sét phía sau tóc */}
+        <g opacity="0.4">
+          <path d="M -22 6 L -30 -5 L -20 -2 L -26 -20 L -14 -8 L -16 -28 L -6 -12 L 0 -35 L 6 -12 L 12 -30 L 14 -8 L 22 -22 L 18 -2 L 28 -8 L 24 6" fill="none" stroke="#FFFF44" strokeWidth="2">
+            <animate attributeName="opacity" values="0.2;0.6;0.2" dur="0.4s" repeatCount="indefinite" />
+          </path>
+        </g>
+        {/* Tóc vàng xù chính - nhiều lớp tia nhọn vươn lên */}
+        <path d="
+          M -20 10
+          L -26 -6 L -18 0
+          L -20 -18 L -12 -4
+          L -14 -28 L -6 -8
+          L -6 -38 L 0 -10
+          L 2 -42 L 6 -12
+          L 10 -35 L 12 -6
+          L 16 -28 L 16 -2
+          L 22 -18 L 20 2
+          L 26 -8 L 24 8
+          Z" fill="#FFD700" stroke="#CC9900" strokeWidth="0.8" />
+        {/* Highlight sáng bên trong tóc */}
+        <path d="
+          M -16 6
+          L -20 -8 L -14 0
+          L -16 -20 L -10 -6
+          L -10 -32 L -4 -8
+          L -2 -36 L 2 -10
+          L 6 -32 L 8 -6
+          L 12 -24 L 12 0
+          L 18 -14 L 16 4
+          L 22 -6 L 20 6
+          Z" fill="#FFED4A" />
+        {/* Tia sáng highlight strong nhất */}
+        <path d="M -4 -8 L -2 -30 L 2 -8 L 4 -32 L 8 -6 L 10 -28 L 12 -4" fill="none" stroke="#FFFFAA" strokeWidth="1" opacity="0.6" />
+        {/* Sọc bóng đổ tóc */}
+        <path d="M -12 4 L -10 -10 L -6 2 M 4 0 L 6 -16 L 10 0 M 14 2 L 16 -10 L 20 4" fill="none" stroke="#DAA520" strokeWidth="0.8" opacity="0.5" />
       </g>
     )}
     

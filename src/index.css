@@ -122,14 +122,15 @@
 .screen-cat-container {
   position: fixed;
   bottom: 24px;
-  left: 24px;
+  right: 24px;
   z-index: 9999;
   pointer-events: none;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-end;
   justify-content: flex-end;
   will-change: transform;
+  max-width: 280px;
 }
 
 .screen-cat-body {
@@ -165,10 +166,11 @@
 }
 
 .screen-cat-bubble {
-  white-space: nowrap;
+  white-space: normal;
+  max-width: 240px;
   background: linear-gradient(135deg, #1f1c2c 0%, #000000 100%);
   color: #f7e8ba;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   padding: 8px 18px;
   border-radius: 18px;
@@ -824,8 +826,12 @@
 }
 
 .ceo-cat-lay {
-  transform: rotate(90deg) translateY(-20px);
-  animation: breathe 3s infinite alternate ease-in-out;
+  transform: translateY(10px) scaleX(0.95);
+  animation: cat-lay-breathe 3s infinite alternate ease-in-out;
+}
+@keyframes cat-lay-breathe {
+  0% { transform: translateY(10px) scaleX(0.95) scaleY(1); }
+  100% { transform: translateY(12px) scaleX(1) scaleY(0.95); }
 }
 
 .ceo-cat-fly {
@@ -858,3 +864,6 @@
 @keyframes cat-celebrate { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 .ceo-cat-attack { animation: cat-attack 0.5s ease-out forwards; }
 @keyframes cat-attack { 0% { transform: translateX(0); } 20% { transform: translateX(10px); } 50% { transform: translateX(-30px) scale(1.1); } 100% { transform: translateX(0); } }
+
+/* Super Saiyan glow pulse */
+.ceo-saiyan-aura { pointer-events: none; }
