@@ -1,4 +1,10 @@
-import { useState, useMemo, useDeferredValue } from "react"
+import {
+  useState,
+  useMemo,
+  useDeferredValue,
+  useCallback,
+  startTransition,
+} from "react"
 import { ScreenCat } from "@/components/ScreenCat"
 import { FilterBar } from "@/components/FilterBar"
 import { ProductTable } from "@/components/ProductTable"
@@ -59,36 +65,70 @@ export function App() {
     pageKeys.length > 0 && pageKeys.every((k) => selectedRows.has(k))
   const somePageSelected = pageKeys.some((k) => selectedRows.has(k))
 
-  const toggleRow = (key: string) => {
+  const toggleRow = useCallback((key: string) => {
     setSelectedRows((prev) => {
       const next = new Set(prev)
       if (next.has(key)) next.delete(key)
       else next.add(key)
       return next
     })
-  }
+  }, [])
 
-  const toggleAllPage = () => {
+  const toggleAllPage = useCallback(() => {
     setSelectedRows((prev) => {
       const next = new Set(prev)
       if (allPageSelected) pageKeys.forEach((k) => next.delete(k))
       else pageKeys.forEach((k) => next.add(k))
       return next
     })
-  }
+  }, [allPageSelected, pageKeys])
 
-  const clearSelection = () => {
+  const clearSelection = useCallback(() => {
     setSelectedRows(new Set())
     setShowSelectedOnly(false)
-  }
+  }, [])
 
-  const handlePrintLabels = () => {
+  const handlePrintLabels = useCallback(() => {
     const selected = products.filter((p) => selectedRows.has(rowKey(p)))
     if (selected.length === 0) return
     setPrintProducts(selected)
-  }
+  }, [products, selectedRows])
 
-  const resetPage = () => setPage(1)
+  const resetPage = useCallback(() => {
+    startTransition(() => {
+      setPage(1)
+    })
+  }, [])
+
+  const handleSearchChange = useCallback((value: string) => {
+    setSearch(value)
+    resetPage()
+  }, [resetPage])
+
+  const handleGroupChange = useCallback((value: string) => {
+    setGroupFilter(value)
+    resetPage()
+  }, [resetPage])
+
+  const handleCategoryChange = useCallback((value: string) => {
+    setCategoryFilter(value)
+    resetPage()
+  }, [resetPage])
+
+  const handleSortChange = useCallback((value: SortOrder) => {
+    setSortOrder(value)
+    resetPage()
+  }, [resetPage])
+
+  const handlePageSizeChange = useCallback((value: number) => {
+    setPageSize(value)
+    resetPage()
+  }, [resetPage])
+
+  const handleToggleShowSelected = useCallback(() => {
+    setShowSelectedOnly((value) => !value)
+    resetPage()
+  }, [resetPage])
 
   if (loading) {
     return (
@@ -112,30 +152,15 @@ export function App() {
 
         <FilterBar
           search={search}
-          onSearchChange={(v) => {
-            setSearch(v)
-            resetPage()
-          }}
+          onSearchChange={handleSearchChange}
           groupFilter={groupFilter}
-          onGroupChange={(v) => {
-            setGroupFilter(v)
-            resetPage()
-          }}
+          onGroupChange={handleGroupChange}
           categoryFilter={categoryFilter}
-          onCategoryChange={(v) => {
-            setCategoryFilter(v)
-            resetPage()
-          }}
+          onCategoryChange={handleCategoryChange}
           sortOrder={sortOrder}
-          onSortChange={(v) => {
-            setSortOrder(v)
-            resetPage()
-          }}
+          onSortChange={handleSortChange}
           pageSize={pageSize}
-          onPageSizeChange={(v) => {
-            setPageSize(v)
-            resetPage()
-          }}
+          onPageSizeChange={handlePageSizeChange}
           groups={groups}
           columns={columns}
           allCols={allCols}
@@ -153,10 +178,7 @@ export function App() {
           toggleRow={toggleRow}
           toggleAllPage={toggleAllPage}
           clearSelection={clearSelection}
-          onToggleShowSelected={() => {
-            setShowSelectedOnly((v) => !v)
-            resetPage()
-          }}
+          onToggleShowSelected={handleToggleShowSelected}
           onSelectProduct={setSelected}
           onPrintLabels={handlePrintLabels}
         />

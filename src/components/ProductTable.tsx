@@ -1,3 +1,4 @@
+import { memo } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Button } from "@/components/ui/button"
@@ -29,6 +30,162 @@ interface ProductTableProps {
   onPrintLabels: () => void
 }
 
+interface ProductTableHeaderProps {
+  columns: ColKey[]
+  allPageSelected: boolean
+  somePageSelected: boolean
+  toggleAllPage: () => void
+}
+
+interface SelectionBarProps {
+  selectedCount: number
+  showSelectedOnly: boolean
+  clearSelection: () => void
+  onToggleShowSelected: () => void
+  onPrintLabels: () => void
+}
+
+interface ProductTableRowProps {
+  product: Product
+  columns: ColKey[]
+  rowId: string
+  isChecked: boolean
+  toggleRow: (key: string) => void
+  onSelectProduct: (p: Product) => void
+}
+
+const ProductTableHeader = memo(function ProductTableHeader({
+  columns,
+  allPageSelected,
+  somePageSelected,
+  toggleAllPage,
+}: ProductTableHeaderProps) {
+  return (
+    <TableHeader>
+      <TableRow>
+        <TableHead className="w-[40px]">
+          <Checkbox
+            checked={allPageSelected}
+            indeterminate={!allPageSelected && somePageSelected}
+            onCheckedChange={toggleAllPage}
+          />
+        </TableHead>
+        {columns.includes("image") && (
+          <TableHead className="w-[50px]">Ảnh</TableHead>
+        )}
+        {columns.includes("product") && <TableHead>Sản phẩm</TableHead>}
+        {columns.includes("sku") && <TableHead>SKU</TableHead>}
+        {columns.includes("price") && (
+          <TableHead className="text-right">Giá bán lẻ</TableHead>
+        )}
+        {columns.includes("stock_cn1") && (
+          <TableHead className="text-right">Tồn CN1</TableHead>
+        )}
+        {columns.includes("stock_cn3") && (
+          <TableHead className="text-right">Tồn CN3</TableHead>
+        )}
+      </TableRow>
+    </TableHeader>
+  )
+})
+
+const SelectionBar = memo(function SelectionBar({
+  selectedCount,
+  showSelectedOnly,
+  clearSelection,
+  onToggleShowSelected,
+  onPrintLabels,
+}: SelectionBarProps) {
+  if (selectedCount === 0) return null
+
+  return (
+    <div className="mb-2 flex items-center gap-3 rounded-lg border bg-muted/50 px-4 py-2">
+      <span className="text-sm font-medium">Đã chọn {selectedCount} hàng</span>
+      <Button
+        variant={showSelectedOnly ? "default" : "outline"}
+        size="sm"
+        onClick={onToggleShowSelected}
+      >
+        {showSelectedOnly ? "Xem tất cả" : "Xem đã chọn"}
+      </Button>
+      <Button variant="ghost" size="sm" onClick={clearSelection}>
+        Bỏ chọn tất cả
+      </Button>
+      <Button variant="outline" size="sm" onClick={onPrintLabels}>
+        <Printer className="mr-1 h-3.5 w-3.5" />
+        In tem
+      </Button>
+    </div>
+  )
+})
+
+const ProductTableRow = memo(function ProductTableRow({
+  product,
+  columns,
+  rowId,
+  isChecked,
+  toggleRow,
+  onSelectProduct,
+}: ProductTableRowProps) {
+  return (
+    <TableRow
+      className={`cursor-pointer hover:bg-muted/50 ${isChecked ? "bg-muted/30" : ""}`}
+      onClick={() => onSelectProduct(product)}
+    >
+      <TableCell onClick={(e) => e.stopPropagation()}>
+        <Checkbox
+          checked={isChecked}
+          onCheckedChange={() => toggleRow(rowId)}
+        />
+      </TableCell>
+      {columns.includes("image") && (
+        <TableCell>
+          {product.image ? (
+            <img
+              src={product.image}
+              alt={product.variant || ""}
+              className="h-10 w-10 rounded object-cover"
+              loading="lazy"
+            />
+          ) : (
+            <div className="flex h-10 w-10 items-center justify-center rounded bg-muted text-xs text-muted-foreground">
+              N/A
+            </div>
+          )}
+        </TableCell>
+      )}
+      {columns.includes("product") && (
+        <TableCell>
+          <div className="max-w-[300px]">
+            <div className="truncate text-sm font-medium">{product.name}</div>
+            <div className="truncate text-xs text-muted-foreground">
+              {product.variant}
+            </div>
+          </div>
+        </TableCell>
+      )}
+      {columns.includes("sku") && (
+        <TableCell className="font-mono text-xs">{product.sku}</TableCell>
+      )}
+      {columns.includes("price") && (
+        <TableCell className="text-right text-sm">
+          {formatPrice(product.retail_price)}
+        </TableCell>
+      )}
+      {columns.includes("stock_cn1") && (
+        <TableCell className="text-right text-sm">
+          {formatStock(product.stock_cn1)}
+        </TableCell>
+      )}
+      {columns.includes("stock_cn3") && (
+        <TableCell className="text-right text-sm">
+          {formatStock(product.stock_cn3)}
+        </TableCell>
+      )}
+    </TableRow>
+  )
+})
+
 export function ProductTable({
   pageData,
   columns,
@@ -48,124 +205,38 @@ export function ProductTable({
 
   return (
     <>
-      {selectedRows.size > 0 && (
-        <div className="mb-2 flex items-center gap-3 rounded-lg border bg-muted/50 px-4 py-2">
-          <span className="text-sm font-medium">
-            Đã chọn {selectedRows.size} hàng
-          </span>
-          <Button
-            variant={showSelectedOnly ? "default" : "outline"}
-            size="sm"
-            onClick={onToggleShowSelected}
-          >
-            {showSelectedOnly ? "Xem tất cả" : "Xem đã chọn"}
-          </Button>
-          <Button variant="ghost" size="sm" onClick={clearSelection}>
-            Bỏ chọn tất cả
-          </Button>
-          <Button variant="outline" size="sm" onClick={onPrintLabels}>
-            <Printer className="mr-1 h-3.5 w-3.5" />
-            In tem
-          </Button>
-        </div>
-      )}
+      <SelectionBar
+        selectedCount={selectedRows.size}
+        showSelectedOnly={showSelectedOnly}
+        clearSelection={clearSelection}
+        onToggleShowSelected={onToggleShowSelected}
+        onPrintLabels={onPrintLabels}
+      />
 
       <Card>
         <CardContent className="p-0">
           <div className="overflow-x-auto">
             <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[40px]">
-                    <Checkbox
-                      checked={allPageSelected}
-                      indeterminate={!allPageSelected && somePageSelected}
-                      onCheckedChange={toggleAllPage}
-                    />
-                  </TableHead>
-                  {columns.includes("image") && (
-                    <TableHead className="w-[50px]">Ảnh</TableHead>
-                  )}
-                  {columns.includes("product") && (
-                    <TableHead>Sản phẩm</TableHead>
-                  )}
-                  {columns.includes("sku") && <TableHead>SKU</TableHead>}
-                  {columns.includes("price") && (
-                    <TableHead className="text-right">Giá bán lẻ</TableHead>
-                  )}
-                  {columns.includes("stock_cn1") && (
-                    <TableHead className="text-right">Tồn CN1</TableHead>
-                  )}
-                  {columns.includes("stock_cn3") && (
-                    <TableHead className="text-right">Tồn CN3</TableHead>
-                  )}
-                </TableRow>
-              </TableHeader>
+              <ProductTableHeader
+                columns={columns}
+                allPageSelected={allPageSelected}
+                somePageSelected={somePageSelected}
+                toggleAllPage={toggleAllPage}
+              />
               <TableBody>
                 {pageData.map((p) => {
-                  const key = rowKey(p)
-                  const isChecked = selectedRows.has(key)
+                  const rowId = rowKey(p)
+                  const isChecked = selectedRows.has(rowId)
                   return (
-                    <TableRow
-                      key={key}
-                      className={`cursor-pointer hover:bg-muted/50 ${isChecked ? "bg-muted/30" : ""}`}
-                      onClick={() => onSelectProduct(p)}
-                    >
-                      <TableCell onClick={(e) => e.stopPropagation()}>
-                        <Checkbox
-                          checked={isChecked}
-                          onCheckedChange={() => toggleRow(key)}
-                        />
-                      </TableCell>
-                      {columns.includes("image") && (
-                        <TableCell>
-                          {p.image ? (
-                            <img
-                              src={p.image}
-                              alt={p.variant || ""}
-                              className="h-10 w-10 rounded object-cover"
-                              loading="lazy"
-                            />
-                          ) : (
-                            <div className="flex h-10 w-10 items-center justify-center rounded bg-muted text-xs text-muted-foreground">
-                              N/A
-                            </div>
-                          )}
-                        </TableCell>
-                      )}
-                      {columns.includes("product") && (
-                        <TableCell>
-                          <div className="max-w-[300px]">
-                            <div className="truncate text-sm font-medium">
-                              {p.name}
-                            </div>
-                            <div className="truncate text-xs text-muted-foreground">
-                              {p.variant}
-                            </div>
-                          </div>
-                        </TableCell>
-                      )}
-                      {columns.includes("sku") && (
-                        <TableCell className="font-mono text-xs">
-                          {p.sku}
-                        </TableCell>
-                      )}
-                      {columns.includes("price") && (
-                        <TableCell className="text-right text-sm">
-                          {formatPrice(p.retail_price)}
-                        </TableCell>
-                      )}
-                      {columns.includes("stock_cn1") && (
-                        <TableCell className="text-right text-sm">
-                          {formatStock(p.stock_cn1)}
-                        </TableCell>
-                      )}
-                      {columns.includes("stock_cn3") && (
-                        <TableCell className="text-right text-sm">
-                          {formatStock(p.stock_cn3)}
-                        </TableCell>
-                      )}
-                    </TableRow>
+                    <ProductTableRow
+                      key={rowId}
+                      product={p}
+                      columns={columns}
+                      rowId={rowId}
+                      isChecked={isChecked}
+                      toggleRow={toggleRow}
+                      onSelectProduct={onSelectProduct}
+                    />
                   )
                 })}
                 {pageData.length === 0 && (

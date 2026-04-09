@@ -121,13 +121,14 @@
 /* === Screen Cat === */
 .screen-cat-container {
   position: fixed;
-  top: 0;
-  left: 0;
+  bottom: 24px;
+  left: 24px;
   z-index: 9999;
   pointer-events: none;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-end;
   will-change: transform;
 }
 
@@ -144,7 +145,9 @@
   left: 50%;
   transform: translateX(-50%);
   font-size: 11px;
-  color: #f5a623;
+  font-weight: bold;
+  color: #d4af37;
+  text-shadow: 0 0 5px rgba(212, 175, 55, 0.8);
   opacity: 0;
   animation: scatPurrFade 3s ease-in-out infinite;
   pointer-events: none;
@@ -153,30 +156,43 @@
   0%,
   100% {
     opacity: 0;
-    transform: translateX(-50%) translateY(0);
+    transform: translateX(-50%) translateY(0) scale(1);
   }
   50% {
-    opacity: 0.7;
-    transform: translateX(-50%) translateY(-4px);
+    opacity: 0.9;
+    transform: translateX(-50%) translateY(-6px) scale(1.1);
   }
 }
 
 .screen-cat-bubble {
   white-space: nowrap;
-  background: #1a1a2e;
-  color: #fff;
-  font-size: 13px;
-  font-weight: 500;
-  padding: 6px 14px;
-  border-radius: 14px;
-  box-shadow: 0 4px 16px oklch(0 0 0 / 0.25);
+  background: linear-gradient(135deg, #1f1c2c 0%, #000000 100%);
+  color: #f7e8ba;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 18px;
+  border-radius: 18px;
+  border: 1px solid #d4af37;
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.25);
   animation: scatBubble 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
   position: relative;
   pointer-events: auto;
   cursor: default;
+  letter-spacing: 0.3px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 .screen-cat-bubble::after {
+  content: "";
+  position: absolute;
+  bottom: -7px;
+  left: 50%;
+  margin-left: -6px;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-top: 8px solid #d4af37;
+}
+.screen-cat-bubble::before {
   content: "";
   position: absolute;
   bottom: -6px;
@@ -184,7 +200,8 @@
   margin-left: -5px;
   border-left: 6px solid transparent;
   border-right: 6px solid transparent;
-  border-top: 7px solid #1a1a2e;
+  border-top: 7px solid #000;
+  z-index: 1;
 }
 @keyframes scatBubble {
   0% {
@@ -654,3 +671,190 @@
 .print-btn-secondary:hover {
   background: #f9fafb;
 }
+
+/* SVG Cat CEO Keyframes */
+.ceo-cat {
+  overflow: visible;
+  filter: drop-shadow(0 8px 16px rgba(0,0,0,0.4)) drop-shadow(0 0 8px rgba(212,175,55,0.2));
+  transform-origin: bottom center;
+}
+
+/* Base living animations */
+.ceo-body, .ceo-cape, .ceo-chest {
+  animation: ceoBaseBreathe 4s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+@keyframes ceoBaseBreathe {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(0.98); }
+}
+
+.ceo-ears {
+  animation: ceoEarTwitch 7s infinite;
+  transform-origin: center 25px;
+}
+@keyframes ceoEarTwitch {
+  0%, 90%, 100% { transform: rotate(0); }
+  92% { transform: rotate(-5deg); }
+  94% { transform: rotate(4deg); }
+  96% { transform: rotate(-2deg); }
+}
+
+.ceo-sparkle {
+  animation: ceoSparkle 2s ease-in-out infinite alternate;
+  transform-origin: 16px -8px;
+}
+@keyframes ceoSparkle {
+  0% { transform: scale(0.5) rotate(0deg); opacity: 0.2; }
+  100% { transform: scale(1.3) rotate(45deg); opacity: 1; }
+}
+
+.ceo-pendant {
+  animation: ceoPendantFx 3s ease-in-out infinite;
+  transform-origin: 64px 72px;
+}
+@keyframes ceoPendantFx {
+  0%, 100% { transform: rotate(0deg); filter: brightness(1); }
+  50% { transform: rotate(3deg); filter: brightness(1.5); }
+}
+
+.ceo-tail {
+  transform-origin: 85px 105px;
+  animation: tailWag 4s ease-in-out infinite;
+  transition: transform 0.3s;
+}
+@keyframes tailWag {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(8deg); }
+}
+.ceo-tail.tail-jump {
+  transform: rotate(-15deg);
+  animation: none;
+}
+
+/* Idle state */
+.ceo-cat-idle .ceo-eyes {
+  animation: ceoBlink 5s infinite;
+  transform-origin: center 43px;
+}
+@keyframes ceoBlink {
+  0%, 96%, 100% { transform: scaleY(1); }
+  98% { transform: scaleY(0.1); }
+}
+
+/* Sleep state */
+.ceo-cat-sleep .ceo-eyes {
+  transform: scaleY(0.1);
+  transform-origin: center 43px;
+}
+.ceo-cat-sleep .ceo-pupil {
+  opacity: 0;
+}
+.ceo-cat-sleep {
+  animation: ceoSleepBreathe 3s ease-in-out infinite;
+}
+@keyframes ceoSleepBreathe {
+  0%, 100% { transform: scaleY(1) translateY(0); }
+  50% { transform: scaleY(0.98) translateY(2px); }
+}
+
+/* Groom state - paw moves up */
+.ceo-cat-groom .ceo-paw-r {
+  transform-origin: 70px 100px;
+  animation: ceoGroom 0.8s ease-in-out infinite alternate;
+}
+@keyframes ceoGroom {
+  0% { transform: translate(0, 0) rotate(0); }
+  100% { transform: translate(-10px, -35px) rotate(-30deg); }
+}
+
+/* Scratch state */
+.ceo-cat-scratch .ceo-scratch-paw {
+  animation: ceoScratching 0.3s ease-in-out infinite alternate;
+  opacity: 1;
+}
+.ceo-cat-scratch .ceo-leg-r {
+  opacity: 0;
+}
+.ceo-cat-scratch .ceo-head-group {
+  animation: ceoScratchHead 0.3s ease-in-out infinite alternate;
+  transform-origin: center 45px;
+}
+@keyframes ceoScratching {
+  0% { transform: translateY(0px) rotate(0deg); }
+  100% { transform: translateY(-30px) rotate(-15deg); }
+}
+@keyframes ceoScratchHead {
+  0% { transform: rotate(0); }
+  100% { transform: rotate(5deg) translate(2px, 2px); }
+}
+
+/* Look state */
+.ceo-cat-look .ceo-eye {
+  transform: translateX(3px);
+}
+.ceo-cat-look .ceo-pupil {
+  transform: translateX(2px);
+}
+
+.ceo-cat-stretch .ceo-body, .ceo-cat-stretch .ceo-cape {
+  animation: ceoStretch 1.5s ease-in-out infinite alternate;
+  transform-origin: bottom center;
+}
+.ceo-cat-stretch .ceo-head-group {
+  transform: translateY(2px);
+}
+@keyframes ceoStretch {
+  0% { transform: scaleY(1) scaleX(1); }
+  100% { transform: scaleY(0.95) scaleX(1.02); }
+}
+
+/* Anime Leap (Squash & Stretch) */
+.anime-jump {
+  animation: animeJumpSquashStretch 0.8s cubic-bezier(0.2, 0.8, 0.4, 1);
+  transform-origin: bottom center;
+}
+@keyframes animeJumpSquashStretch {
+  0% { transform: scale(1, 1); }
+  10% { transform: scale(1.15, 0.8) translateY(5px); }  /* Anticipation squash */
+  35% { transform: scale(0.85, 1.25) translateY(-5px); } /* Launch stretch */
+  70% { transform: scale(0.95, 1.05) translateY(-2px); }  /* Fall stretch */
+  85% { transform: scale(1.15, 0.8) translateY(5px); }    /* Landing squash */
+  100% { transform: scale(1, 1) translateY(0); }
+}
+
+.ceo-cat-lay {
+  transform: rotate(90deg) translateY(-20px);
+  animation: breathe 3s infinite alternate ease-in-out;
+}
+
+.ceo-cat-fly {
+  animation: scatHover 2s infinite ease-in-out, ceoCatBreathe 2s infinite alternate ease-in-out;
+}
+
+.ceo-cat-whine {
+  transform-origin: bottom center;
+  animation: scatWhine 1.5s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes scatWhine {
+  0% { transform: scale(1, 0.95) skewX(2deg); }
+  50% { transform: scale(1.02, 1.05) skewX(-2deg); }
+  100% { transform: scale(1, 0.95) skewX(3deg); }
+}
+
+@keyframes scatHover {
+  0%, 100% { transform: translateY(0px) rotate(-3deg); }
+  50% { transform: translateY(-15px) rotate(3deg); }
+}
+
+
+.ceo-cat-dance { animation: cat-dance 0.5s ease-in-out infinite alternate; }
+@keyframes cat-dance { 0% { transform: rotate(-5deg) translateY(-2px); } 100% { transform: rotate(5deg) translateY(2px); } }
+.ceo-cat-laugh { animation: cat-laugh 0.15s ease-in-out infinite alternate; }
+@keyframes cat-laugh { 0% { transform: translateY(0); } 100% { transform: translateY(-3px); } }
+.ceo-cat-hide { transform: scale(0.5) translateY(40px); opacity: 0.5; transition: all 0.5s ease; }
+.ceo-cat-celebrate { animation: cat-celebrate 0.6s ease-in-out infinite; }
+@keyframes cat-celebrate { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+.ceo-cat-attack { animation: cat-attack 0.5s ease-out forwards; }
+@keyframes cat-attack { 0% { transform: translateX(0); } 20% { transform: translateX(10px); } 50% { transform: translateX(-30px) scale(1.1); } 100% { transform: translateX(0); } }

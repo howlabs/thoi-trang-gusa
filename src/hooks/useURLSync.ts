@@ -39,13 +39,39 @@ function syncURL(s: URLState) {
   if (s.pageSize !== DEFAULT_PAGE_SIZE) sp.set("ps", String(s.pageSize))
   if (s.sort !== "none") sp.set("sort", s.sort)
   const qs = sp.toString()
-  window.history.replaceState(null, "", qs ? `?${qs}` : window.location.pathname)
+  const next = qs ? `?${qs}` : window.location.pathname
+  const current = `${window.location.pathname}${window.location.search}`
+
+  if (next !== current) {
+    window.history.replaceState(null, "", next)
+  }
 }
 
-export function useURLSync(state: URLState) {
+export function useURLSync({
+  search,
+  group,
+  category,
+  page,
+  pageSize,
+  sort,
+}: URLState) {
   const init = useMemo(() => parseURL(), [])
   useEffect(() => {
-    syncURL(state)
-  }, [state])
+    syncURL({
+      search,
+      group,
+      category,
+      page,
+      pageSize,
+      sort,
+    })
+  }, [
+    search,
+    group,
+    category,
+    page,
+    pageSize,
+    sort,
+  ])
   return init
 }

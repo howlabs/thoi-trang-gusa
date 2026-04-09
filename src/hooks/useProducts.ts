@@ -7,7 +7,6 @@ export function useProducts() {
 
   useEffect(() => {
     let cancelled = false
-    setLoading(true)
     fetch("/products.json")
       .then((r) => r.json())
       .then((data: Product[]) => {
