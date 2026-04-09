@@ -4,6 +4,7 @@ import { FilterBar } from "@/components/FilterBar"
 import { ProductTable } from "@/components/ProductTable"
 import { ProductDialog } from "@/components/ProductDialog"
 import { Pagination } from "@/components/Pagination"
+import { PrintLabels } from "@/components/PrintLabels"
 import { useProducts } from "@/hooks/useProducts"
 import { useURLSync, parseURL } from "@/hooks/useURLSync"
 import { useTableFilters } from "@/hooks/useTableFilters"
@@ -25,10 +26,18 @@ export function App() {
   const [selected, setSelected] = useState<Product | null>(null)
   const [showSelectedOnly, setShowSelectedOnly] = useState(false)
   const [selectedRows, setSelectedRows] = useState<Set<string>>(new Set())
+  const [printProducts, setPrintProducts] = useState<Product[] | null>(null)
 
   const deferredSearch = useDeferredValue(search)
 
-  useURLSync({ search, group: groupFilter, category: categoryFilter, page, pageSize, sort: sortOrder })
+  useURLSync({
+    search,
+    group: groupFilter,
+    category: categoryFilter,
+    page,
+    pageSize,
+    sort: sortOrder,
+  })
 
   const { columns, toggleCol, allCols } = useColumnVisibility()
 
@@ -46,7 +55,8 @@ export function App() {
 
   // Row selection (depends on pageData)
   const pageKeys = useMemo(() => pageData.map(rowKey), [pageData])
-  const allPageSelected = pageKeys.length > 0 && pageKeys.every((k) => selectedRows.has(k))
+  const allPageSelected =
+    pageKeys.length > 0 && pageKeys.every((k) => selectedRows.has(k))
   const somePageSelected = pageKeys.some((k) => selectedRows.has(k))
 
   const toggleRow = (key: string) => {
@@ -67,7 +77,16 @@ export function App() {
     })
   }
 
-  const clearSelection = () => { setSelectedRows(new Set()); setShowSelectedOnly(false) }
+  const clearSelection = () => {
+    setSelectedRows(new Set())
+    setShowSelectedOnly(false)
+  }
+
+  const handlePrintLabels = () => {
+    const selected = products.filter((p) => selectedRows.has(rowKey(p)))
+    if (selected.length === 0) return
+    setPrintProducts(selected)
+  }
 
   const resetPage = () => setPage(1)
 
@@ -80,52 +99,86 @@ export function App() {
   }
 
   return (
-    <div className="mx-auto min-h-svh w-full max-w-[1600px] p-4 md:p-6">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold tracking-tight">Cửu Âm Chân Kinh</h1>
-        <p className="text-sm text-muted-foreground">
-          {filtered.length.toLocaleString("vi-VN")} phiên bản &middot; {uniqueProducts} sản phẩm &middot; Tổng tồn kho: {totalStock.toLocaleString("vi-VN")}
-        </p>
+    <>
+      <div className="no-print mx-auto min-h-svh w-full max-w-[1600px] p-4 md:p-6">
+        <div className="mb-6">
+          <h1 className="text-2xl font-bold tracking-tight">Cửu Âm Chân Kinh</h1>
+          <p className="text-sm text-muted-foreground">
+            {filtered.length.toLocaleString("vi-VN")} phiên bản &middot;{" "}
+            {uniqueProducts} sản phẩm &middot; Tổng tồn kho:{" "}
+            {totalStock.toLocaleString("vi-VN")}
+          </p>
+        </div>
+
+        <FilterBar
+          search={search}
+          onSearchChange={(v) => {
+            setSearch(v)
+            resetPage()
+          }}
+          groupFilter={groupFilter}
+          onGroupChange={(v) => {
+            setGroupFilter(v)
+            resetPage()
+          }}
+          categoryFilter={categoryFilter}
+          onCategoryChange={(v) => {
+            setCategoryFilter(v)
+            resetPage()
+          }}
+          sortOrder={sortOrder}
+          onSortChange={(v) => {
+            setSortOrder(v)
+            resetPage()
+          }}
+          pageSize={pageSize}
+          onPageSizeChange={(v) => {
+            setPageSize(v)
+            resetPage()
+          }}
+          groups={groups}
+          columns={columns}
+          allCols={allCols}
+          onToggleCol={toggleCol}
+        />
+
+        <ProductTable
+          pageData={pageData}
+          columns={columns}
+          selectedRows={selectedRows}
+          allPageSelected={allPageSelected}
+          somePageSelected={somePageSelected}
+          showSelectedOnly={showSelectedOnly}
+          rowKey={rowKey}
+          toggleRow={toggleRow}
+          toggleAllPage={toggleAllPage}
+          clearSelection={clearSelection}
+          onToggleShowSelected={() => {
+            setShowSelectedOnly((v) => !v)
+            resetPage()
+          }}
+          onSelectProduct={setSelected}
+          onPrintLabels={handlePrintLabels}
+        />
+
+        <Pagination
+          page={page}
+          totalPages={totalPages}
+          onPageChange={setPage}
+        />
+
+        <ProductDialog product={selected} onClose={() => setSelected(null)} />
+
+        <ScreenCat />
       </div>
 
-      <FilterBar
-        search={search}
-        onSearchChange={(v) => { setSearch(v); resetPage() }}
-        groupFilter={groupFilter}
-        onGroupChange={(v) => { setGroupFilter(v); resetPage() }}
-        categoryFilter={categoryFilter}
-        onCategoryChange={(v) => { setCategoryFilter(v); resetPage() }}
-        sortOrder={sortOrder}
-        onSortChange={(v) => { setSortOrder(v); resetPage() }}
-        pageSize={pageSize}
-        onPageSizeChange={(v) => { setPageSize(v); resetPage() }}
-        groups={groups}
-        columns={columns}
-        allCols={allCols}
-        onToggleCol={toggleCol}
-      />
-
-      <ProductTable
-        pageData={pageData}
-        columns={columns}
-        selectedRows={selectedRows}
-        allPageSelected={allPageSelected}
-        somePageSelected={somePageSelected}
-        showSelectedOnly={showSelectedOnly}
-        rowKey={rowKey}
-        toggleRow={toggleRow}
-        toggleAllPage={toggleAllPage}
-        clearSelection={clearSelection}
-        onToggleShowSelected={() => { setShowSelectedOnly((v) => !v); resetPage() }}
-        onSelectProduct={setSelected}
-      />
-
-      <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
-
-      <ProductDialog product={selected} onClose={() => setSelected(null)} />
-
-      <ScreenCat />
-    </div>
+      {printProducts && (
+        <PrintLabels
+          products={printProducts}
+          onClose={() => setPrintProducts(null)}
+        />
+      )}
+    </>
   )
 }
 
