@@ -68,27 +68,7 @@ export const CatOutfitLayer = ({ outfit }: { outfit: Outfit }) => {
       </g>
     )
   }
-  if (outfit === "sweater") {
-    return (
-      <g className="ceo-sweater">
-        <path d="M 38 55 C 28 90, 35 115, 64 115 C 93 115, 100 90, 90 55 Z" fill="#FFB6C1" />
-        <path d="M 38 105 C 35 115, 64 115, 90 105 Z" fill="#FF69B4" opacity="0.6" />
-        <line x1="45" y1="65" x2="83" y2="65" stroke="#FF69B4" strokeWidth="2" strokeDasharray="4 2" />
-        <line x1="42" y1="80" x2="86" y2="80" stroke="#FF69B4" strokeWidth="2" strokeDasharray="4 2" />
-        <line x1="40" y1="95" x2="88" y2="95" stroke="#FF69B4" strokeWidth="2" strokeDasharray="4 2" />
-      </g>
-    )
-  }
-  if (outfit === "beach") {
-    return (
-      <g className="ceo-beach">
-        <path d="M 38 55 C 28 90, 35 115, 64 115 C 93 115, 100 90, 90 55 Z" fill="#87CEEB" />
-        <path d="M 48 65 L 53 60 L 58 65 L 63 60 L 68 65 L 73 60 L 80 67" fill="none" stroke="#FFFFFF" strokeWidth="2" />
-        <path d="M 45 85 L 50 80 L 55 85 L 60 80 L 65 85 L 70 80 L 83 93" fill="none" stroke="#FFFFFF" strokeWidth="2" />
-        <circle cx="64" cy="74" r="7" fill="#FFD700" />
-      </g>
-    )
-  }
+
   // ── One Piece: Luffy - áo vest đỏ mở ngực + quần xanh + sẹo X ──
   if (outfit === "onepiece") {
     return (

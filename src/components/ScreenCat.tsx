@@ -213,10 +213,10 @@ const CAT_QUOTES = [
 
 const SIZE = 120
 
-const OUTFITS: Outfit[] = ["cape", "suit", "sweater", "ninja", "beach", "onepiece", "naruto", "saiyan", "astronaut", "chef", "doctor", "king", "wizardrobe", "akatsuki", "scout", "jujutsu", "gear5"]
+const OUTFITS: Outfit[] = ["cape", "suit", "ninja", "onepiece", "naruto", "saiyan", "astronaut", "chef", "doctor", "king", "wizardrobe", "akatsuki", "scout", "jujutsu", "gear5"]
 const OUTFIT_TO_HAT: Record<Outfit, Hat> = {
-  cape: "crown", suit: "tophat", sweater: "none", ninja: "none", 
-  beach: "sunglasses", onepiece: "strawhat", naruto: "leafband", saiyan: "saiyanhair", 
+  cape: "crown", suit: "tophat", ninja: "none", 
+  onepiece: "strawhat", naruto: "leafband", saiyan: "saiyanhair", 
   astronaut: "helmet", chef: "chefhat", doctor: "headmirror", king: "crown", 
   wizardrobe: "wizard", akatsuki: "rogueband", scout: "scoutcape", jujutsu: "blindfold", gear5: "gear5hair"
 }
