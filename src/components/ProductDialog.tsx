@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/alert-dialog"
 import type { Product } from "@/types"
 import { CATEGORY_CP, CATEGORY_STOCK } from "@/constants"
-import { formatPrice, formatStock, getCategory } from "@/utils/product"
+import { formatPrice, getCategory } from "@/utils/product"
 import { useImageUpload } from "@/hooks/useImageUpload"
 import { Upload, Loader2, CheckCircle2 } from "lucide-react"
 import { useState, useRef, useEffect } from "react"
@@ -197,19 +197,6 @@ export function ProductDialog({ product, onClose, onUpdateProduct }: ProductDial
               <div>
                 <span className="text-muted-foreground">Giá bán lẻ:</span>
                 <p className="font-medium text-green-600">{formatPrice(product.retail_price)}</p>
-              </div>
-            </div>
-            <div className="border-t pt-3">
-              <p className="mb-2 text-sm font-medium">Tồn kho</p>
-              <div className="grid grid-cols-2 gap-3 text-sm">
-                <div className="rounded-lg bg-muted p-2 text-center">
-                  <p className="text-xs text-muted-foreground">CN1</p>
-                  <p className="text-lg font-bold">{formatStock(product.stock_cn1)}</p>
-                </div>
-                <div className="rounded-lg bg-muted p-2 text-center">
-                  <p className="text-xs text-muted-foreground">CN3</p>
-                  <p className="text-lg font-bold">{formatStock(product.stock_cn3)}</p>
-                </div>
               </div>
             </div>
           </div>

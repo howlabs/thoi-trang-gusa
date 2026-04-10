@@ -7,7 +7,7 @@ export function useProducts() {
 
   useEffect(() => {
     let cancelled = false
-    fetch("/products.json")
+    fetch("/api/products")
       .then((r) => r.json())
       .then((data: Product[]) => {
         if (!cancelled) setProducts(data)
@@ -17,10 +17,18 @@ export function useProducts() {
   }, [])
 
   const updateProduct = (sku: string, updates: Partial<Product>) => {
-    setProducts((prev) => 
+    setProducts((prev) =>
       prev.map((p) => p.sku === sku ? { ...p, ...updates } : p)
     )
   }
 
-  return { products, loading, updateProduct }
+  const refreshProducts = () => {
+    setLoading(true)
+    fetch("/api/products")
+      .then((r) => r.json())
+      .then((data: Product[]) => setProducts(data))
+      .finally(() => setLoading(false))
+  }
+
+  return { products, loading, updateProduct, refreshProducts }
 }

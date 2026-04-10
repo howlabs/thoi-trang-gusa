@@ -11,8 +11,6 @@ export const ALL_COLS: { key: ColKey; label: string }[] = [
   { key: "product", label: "Sản phẩm" },
   { key: "sku", label: "SKU" },
   { key: "price", label: "Giá bán lẻ" },
-  { key: "stock_cn1", label: "Tồn CN1" },
-  { key: "stock_cn3", label: "Tồn CN3" },
 ]
 
 export const DEFAULT_COLS: ColKey[] = ALL_COLS.map((c) => c.key)

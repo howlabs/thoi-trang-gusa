@@ -48,7 +48,7 @@ export function App() {
 
   const { columns, toggleCol, allCols } = useColumnVisibility()
 
-  const { groups, filtered, totalStock, uniqueProducts } = useTableFilters({
+  const { groups, filtered, uniqueProducts } = useTableFilters({
     products,
     search: deferredSearch,
     groupFilter,
@@ -147,8 +147,7 @@ export function App() {
             <h1 className="text-2xl font-bold tracking-tight">Cửu Âm Chân Kinh</h1>
             <p className="text-sm text-muted-foreground mt-1">
               {filtered.length.toLocaleString("vi-VN")} phiên bản &middot;{" "}
-              {uniqueProducts} sản phẩm &middot; Tổng tồn kho:{" "}
-              {totalStock.toLocaleString("vi-VN")}
+              {uniqueProducts} sản phẩm
             </p>
           </div>
           <CloudinaryStats />

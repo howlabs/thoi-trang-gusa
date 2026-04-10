@@ -84,15 +84,10 @@ export function useTableFilters({
     selectedRows,
   ])
 
-  const totalStock = useMemo(
-    () => filtered.reduce((sum, p) => sum + (p.stock_cn1 || 0) + (p.stock_cn3 || 0), 0),
-    [filtered]
-  )
-
   const uniqueProducts = useMemo(() => {
     const names = new Set(filtered.map((p) => p.name).filter(Boolean))
     return names.size
   }, [filtered])
 
-  return { groups, filtered, totalStock, uniqueProducts }
+  return { groups, filtered, uniqueProducts }
 }

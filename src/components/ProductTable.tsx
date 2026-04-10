@@ -11,7 +11,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import type { Product, ColKey } from "@/types"
-import { formatPrice, formatStock } from "@/utils/product"
+import { formatPrice } from "@/utils/product"
 import { Printer } from "lucide-react"
 
 interface ProductTableProps {
@@ -77,12 +77,6 @@ const ProductTableHeader = memo(function ProductTableHeader({
         {columns.includes("sku") && <TableHead>SKU</TableHead>}
         {columns.includes("price") && (
           <TableHead className="text-right">Giá bán lẻ</TableHead>
-        )}
-        {columns.includes("stock_cn1") && (
-          <TableHead className="text-right">Tồn CN1</TableHead>
-        )}
-        {columns.includes("stock_cn3") && (
-          <TableHead className="text-right">Tồn CN3</TableHead>
         )}
       </TableRow>
     </TableHeader>
@@ -170,16 +164,6 @@ const ProductTableRow = memo(function ProductTableRow({
       {columns.includes("price") && (
         <TableCell className="text-right text-sm">
           {formatPrice(product.retail_price)}
-        </TableCell>
-      )}
-      {columns.includes("stock_cn1") && (
-        <TableCell className="text-right text-sm">
-          {formatStock(product.stock_cn1)}
-        </TableCell>
-      )}
-      {columns.includes("stock_cn3") && (
-        <TableCell className="text-right text-sm">
-          {formatStock(product.stock_cn3)}
         </TableCell>
       )}
     </TableRow>
