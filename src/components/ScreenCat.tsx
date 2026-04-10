@@ -3,6 +3,7 @@ import type { CatState } from "./cat/types"
 import { ACTION_CONFIG } from "./cat/types"
 import { CatAura, CatTail, CatPaws, CatOutfitLayer, CatBody, CatHead } from "./cat/CatParts"
 
+const MAX_UP = -300
 const CAT_QUOTES = [
   // ── Sale & Chốt deal ──
   "Khách VIP đến kìa, pha trà hoa cúc vạn thọ nhanh! 🍵",
@@ -92,8 +93,7 @@ export function ScreenCat() {
   const [jumpY, setJumpY] = useState(0)
   const [posY, setPosY] = useState(0)
 
-  const MAX_UP = -300
-  const clamp = (y: number) => Math.max(MAX_UP, Math.min(0, y))
+  const clamp = useCallback((y: number) => Math.max(MAX_UP, Math.min(0, y)), [])
 
   const sr = useRef(state)
 
@@ -202,7 +202,7 @@ export function ScreenCat() {
       clearTimeout(timer)
       if (actTm) clearTimeout(actTm)
     }
-  }, [setCatState])
+  }, [setCatState, clamp])
 
   // ── Quote timer ──
   useEffect(() => {

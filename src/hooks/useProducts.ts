@@ -16,5 +16,11 @@ export function useProducts() {
     return () => { cancelled = true }
   }, [])
 
-  return { products, loading }
+  const updateProduct = (sku: string, updates: Partial<Product>) => {
+    setProducts((prev) => 
+      prev.map((p) => p.sku === sku ? { ...p, ...updates } : p)
+    )
+  }
+
+  return { products, loading, updateProduct }
 }

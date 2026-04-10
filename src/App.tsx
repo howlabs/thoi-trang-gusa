@@ -11,6 +11,7 @@ import { ProductTable } from "@/components/ProductTable"
 import { ProductDialog } from "@/components/ProductDialog"
 import { Pagination } from "@/components/Pagination"
 import { PrintLabels } from "@/components/PrintLabels"
+import { CloudinaryStats } from "@/components/CloudinaryStats"
 import { useProducts } from "@/hooks/useProducts"
 import { useURLSync, parseURL } from "@/hooks/useURLSync"
 import { useTableFilters } from "@/hooks/useTableFilters"
@@ -21,7 +22,7 @@ import { rowKey } from "@/utils/product"
 
 export function App() {
   const init = useMemo(() => parseURL(), [])
-  const { products, loading } = useProducts()
+  const { products, loading, updateProduct } = useProducts()
 
   const [search, setSearch] = useState(init.search)
   const [groupFilter, setGroupFilter] = useState(init.group)
@@ -141,13 +142,16 @@ export function App() {
   return (
     <>
       <div className="no-print mx-auto min-h-svh w-full max-w-[1600px] p-4 md:p-6">
-        <div className="mb-6">
-          <h1 className="text-2xl font-bold tracking-tight">Cửu Âm Chân Kinh</h1>
-          <p className="text-sm text-muted-foreground">
-            {filtered.length.toLocaleString("vi-VN")} phiên bản &middot;{" "}
-            {uniqueProducts} sản phẩm &middot; Tổng tồn kho:{" "}
-            {totalStock.toLocaleString("vi-VN")}
-          </p>
+        <div className="mb-6 flex flex-col md:flex-row md:items-start justify-between gap-4">
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight">Cửu Âm Chân Kinh</h1>
+            <p className="text-sm text-muted-foreground mt-1">
+              {filtered.length.toLocaleString("vi-VN")} phiên bản &middot;{" "}
+              {uniqueProducts} sản phẩm &middot; Tổng tồn kho:{" "}
+              {totalStock.toLocaleString("vi-VN")}
+            </p>
+          </div>
+          <CloudinaryStats />
         </div>
 
         <FilterBar
@@ -189,7 +193,17 @@ export function App() {
           onPageChange={setPage}
         />
 
-        <ProductDialog product={selected} onClose={() => setSelected(null)} />
+        <ProductDialog 
+          product={selected} 
+          onClose={() => setSelected(null)} 
+          onUpdateProduct={(sku, img) => {
+            updateProduct(sku, { image: img })
+            // Ensure selected state updates to reflect changes in dialog immediately
+            if (selected && selected.sku === sku) {
+              setSelected({ ...selected, image: img })
+            }
+          }}
+        />
 
         <ScreenCat />
       </div>

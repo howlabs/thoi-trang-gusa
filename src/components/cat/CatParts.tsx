@@ -399,6 +399,19 @@ export const CatHead = ({ emotion, hat, outfit }: { emotion: Emotion, hat: Hat, 
     )}
     
     <g className="ceo-face">
+      {outfit === "onepiece" && (
+        <path d="M 38 48 L 44 50 M 41 47 L 41 51" stroke="#333" strokeWidth="0.8" opacity="0.6" />
+      )}
+      {outfit === "naruto" && (
+        <g stroke="#333" strokeWidth="0.5" opacity="0.5">
+          <line x1="32" y1="46" x2="38" y2="44" />
+          <line x1="32" y1="48" x2="38" y2="48" />
+          <line x1="32" y1="50" x2="38" y2="52" />
+          <line x1="90" y1="46" x2="96" y2="44" />
+          <line x1="90" y1="48" x2="96" y2="48" />
+          <line x1="90" y1="50" x2="96" y2="52" />
+        </g>
+      )}
       <ellipse cx="40" cy="46" rx="6" ry="3" fill="#FF69B4" opacity="0.5" className="ceo-blush" />
       <ellipse cx="88" cy="46" rx="6" ry="3" fill="#FF69B4" opacity="0.5" className="ceo-blush" />
       <g className="ceo-eyes">
